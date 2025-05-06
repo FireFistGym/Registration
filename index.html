@@ -4,7 +4,7 @@
   <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
   <script>
     window.onload = function () {
-      const scriptURL = "https://script.google.com/macros/s/AKfycbyeENoK1cB99YblIvqQ_fdpn9hRqKfb1rnRQmYWfAGwA8U5pYxs_OysHuXcmcQ-utEvDg/exec";
+      const scriptURL = "https://script.google.com/macros/s/AKfycbz9W36ktRCb8AQmFJouGMcfFs18w8xnJ5_kw6ghhtvvjMwa0EiFFDeCIXF1Zztgxzb8eA/exec";
       liff.init({ liffId: "2007371280-lY274ANQ" })
         .then(() => {
           if (!liff.isLoggedIn()) {
@@ -13,6 +13,10 @@
             liff.getProfile().then(profile => {
               const userId = profile.userId;
               const name = profile.displayName;
+
+              // เพิ่ม console.log ตรงนี้เพื่อตรวจสอบค่า
+              console.log("LIFF Profile - User ID:", userId);
+              console.log("LIFF Profile - Name:", name);
 
               fetch(scriptURL, {
                 method: 'POST',
