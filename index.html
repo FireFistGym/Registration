@@ -1,46 +1,38 @@
-<body>
-  <h2>Registering...</h2>
+<script>
+  window.onload = function () {
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz9W36ktRCb8AQmFJouGMcfFs18w8xnJ5_kw6ghhtvvjMwa0EiFFDeCIXF1Zztgxzb8eA/exec"; // ใช้ URL ใหม่หลัง deploy
+    liff.init({ liffId: "2007371280-lY274ANQ" })
+      .then(() => {
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        } else {
+          liff.getProfile().then(profile => {
+            const userId = profile.userId;
+            const name = profile.displayName;
 
-  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-  <script>
-    window.onload = function () {
-      const scriptURL = "https://script.google.com/macros/s/AKfycbz9W36ktRCb8AQmFJouGMcfFs18w8xnJ5_kw6ghhtvvjMwa0EiFFDeCIXF1Zztgxzb8eA/exec";
-      liff.init({ liffId: "2007371280-lY274ANQ" })
-        .then(() => {
-          if (!liff.isLoggedIn()) {
-            liff.login();
-          } else {
-            liff.getProfile().then(profile => {
-              const userId = profile.userId;
-              const name = profile.displayName;
-
-              // เพิ่ม console.log ตรงนี้เพื่อตรวจสอบค่า
-              console.log("LIFF Profile - User ID:", userId);
-              console.log("LIFF Profile - Name:", name);
-
-              fetch(scriptURL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, name })
-              })
-              .then(response => response.text())
-              .then(result => {
-                console.log("✅ Server response:", response);
-                return response.text();
-                document.body.innerHTML = `<h2>✅ Registration Complete 🎉</h2><p>Thanks, ${name}!</p>`;
-                setTimeout(() => { liff.closeWindow(); }, 3000);
-              })
-              .catch(error => {
-                console.error("❌ Registration failed:", error);
-                document.body.innerHTML = `<h2>❌ Registration failed</h2><p>Please try again later.</p>`;
-              });
+            fetch(scriptURL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ userId, name })
+            })
+            .then(response => response.json())
+            .then(result => {
+              console.log("✅ Server response:", result);
+              document.body.innerHTML = `<h2>✅ Registration Complete 🎉</h2><p>Thanks, ${name}!</p>`;
+              setTimeout(() => { liff.closeWindow(); }, 3000);
+            })
+            .catch(error => {
+              console.error("❌ Registration failed:", error);
+              document.body.innerHTML = `<h2>❌ Registration failed</h2><p>Please try again later.</p>`;
             });
-          }
-        })
-        .catch(error => {
-          console.error("❌ LIFF init failed:", error);
-          document.body.innerHTML = `<h2>❌ LIFF Initialization Failed</h2>`;
-        });
-    };
-  </script>
-</body>
+          });
+        }
+      })
+      .catch(error => {
+        console.error("❌ LIFF init failed:", error);
+        document.body.innerHTML = `<h2>❌ LIFF Initialization Failed</h2>`;
+      });
+  };
+</script>
