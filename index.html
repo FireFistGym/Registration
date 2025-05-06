@@ -1,20 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registering...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+</head>
 <body>
   <h2>Registering...</h2>
 
-  <!-- ✅ Load LIFF SDK -->
-  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-
-  <!-- ✅ รอให้ SDK โหลดเสร็จก่อน -->
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const scriptURL = "https://script.google.com/macros/s/AKfycbx6I_kYRjizHxX8QeVnE2J0Ico0dAyBwf9jF1X8D0WJ2P6FLBf-8MMj4EeH8ZaphJFI8w/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbx6I_kYRjizHxX8QeVnE2J0Ico0dAyBwf9jF1X8D0WJ2P6FLBf-8MMj4EeH8ZaphJFI8w/exec";
 
-      // ✅ ตรวจสอบว่าตัวแปร liff ถูกประกาศแล้ว
-      if (typeof liff === "undefined") {
-        document.body.innerHTML = "<h2>❌ LIFF SDK failed to load</h2>";
-        return;
-      }
-
+    window.onload = function () {
       liff.init({ liffId: "2007371280-lY274ANQ" })
         .then(() => {
           if (!liff.isLoggedIn()) {
@@ -24,10 +22,13 @@
               const userId = profile.userId;
               const name = profile.displayName;
 
+              const formData = new URLSearchParams();
+              formData.append("name", name);
+              formData.append("userId", userId);
+
               fetch(scriptURL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, name })
+                body: formData
               })
               .then(response => response.text())
               .then(result => {
@@ -46,6 +47,7 @@
           console.error("❌ LIFF init failed:", error);
           document.body.innerHTML = `<h2>❌ LIFF Initialization Failed</h2>`;
         });
-    });
+    };
   </script>
 </body>
+</html>
