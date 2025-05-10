@@ -29,9 +29,7 @@
         body: JSON.stringify({
           userId: userId,
           name: document.getElementById('name').value,
-          phone: document.getElementById('phone').value,
-          membership: document.getElementById('membership').value,
-          startDate: document.getElementById('startDate').value
+          ffId: document.getElementById('ffId').value
         }),
         headers: { "Content-Type": "application/json" }
       }).then(res => {
